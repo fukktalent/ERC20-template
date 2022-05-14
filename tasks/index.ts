@@ -1,5 +1,4 @@
 import { task } from 'hardhat/config'
-import { abi } from '../artifacts/contracts/ERC20Token.sol/ERC20Token.json'
 
 
 task("transfer", "Transfer tokens")
@@ -9,7 +8,7 @@ task("transfer", "Transfer tokens")
     .setAction(async ({ contract, to, amount }, { ethers }) => {
         const [signer] = await ethers.getSigners();
 
-        const erc20token = new ethers.Contract(contract, abi, signer);
+        const erc20token = await ethers.getContractAt("ERC20Token", contract, signer);
 
         await erc20token.transfer(to, BigInt(amount));
         console.log('tokens were transfered');
@@ -22,7 +21,7 @@ task("approve", "Approve tokens")
     .setAction(async ({ contract, to, amount }, { ethers }) => {
         const [signer] = await ethers.getSigners();
 
-        const erc20token = new ethers.Contract(contract, abi, signer);
+        const erc20token = await ethers.getContractAt("ERC20Token", contract, signer);
 
         await erc20token.approve(to, BigInt(amount));
         console.log('tokens were approved');
@@ -36,7 +35,7 @@ task("transferFrom", "Transfer tokens from chosen address")
     .setAction(async ({ contract, from, to, amount }, { ethers }) => {
         const [signer] = await ethers.getSigners();
 
-        const erc20token = new ethers.Contract(contract, abi, signer);
+        const erc20token = await ethers.getContractAt("ERC20Token", contract, signer);
 
         await erc20token.transferFrom(from, to, BigInt(amount));
         console.log('tokens were transfered');
@@ -49,7 +48,7 @@ task("mint", "Mint tokens")
     .setAction(async ({ contract, to, amount }, { ethers }) => {
         const [signer] = await ethers.getSigners();
 
-        const erc20token = new ethers.Contract(contract, abi, signer);
+        const erc20token = await ethers.getContractAt("ERC20Token", contract, signer);
 
         await erc20token.mint(to, BigInt(amount));
         console.log('tokens were minted');
@@ -62,7 +61,7 @@ task("burn", "Burn tokens")
     .setAction(async ({ contract, from, amount }, { ethers }) => {
         const [signer] = await ethers.getSigners();
 
-        const erc20token = new ethers.Contract(contract, abi, signer);
+        const erc20token = await ethers.getContractAt("ERC20Token", contract, signer);
 
         await erc20token.burn(from, BigInt(amount));
         console.log('tokens were burned');
